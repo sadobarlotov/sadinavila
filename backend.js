@@ -28,16 +28,16 @@ pool.connect()
 
 // POST route to create a new user
 app.post('/forma', async (req, res) => {
-  const { name, lastName, email } = req.body;
+  const { name, lastName, email, adresa } = req.body;
 
-  if (!name || !email || !lastName) {
+  if (!name || !email || !lastName || !adresa) {
     return res.status(400).json({ error: 'Name, last name, and email are required' });
   }
 
   try {
     const result = await pool.query(
-      'INSERT INTO forma (ime, prezime, email) VALUES ($1, $2, $3) RETURNING *',
-      [name, lastName, email]
+      'INSERT INTO forma (ime, prezime, email, adresa) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, lastName, email, adresa]
     );
 
     const newUser = result.rows[0];
